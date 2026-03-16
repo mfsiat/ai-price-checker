@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from models import UsageRequest
-from services import load_pricing
-from calculator import calculate_cost
+from .models import UsageRequest
+from .services import load_pricing
+from .calculator import calculate_cost
 
 app = FastAPI(title="AI Price Checker API")
 
