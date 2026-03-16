@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PriceTable from "./components/PriceTable";
+import PieChart from "./components/PieChart";
 
 function App() {
   const [inputTokens, setInputTokens] = useState(2000);
@@ -10,7 +11,6 @@ function App() {
   const [selectedProviders, setSelectedProviders] = useState([]);
   const [results, setResults] = useState([]);
 
-  // Fetch providers from backend
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/providers")
@@ -100,7 +100,11 @@ function App() {
         Calculate Price
       </button>
 
+      {/* Show table */}
       <PriceTable results={results} />
+
+      {/* Show pie chart */}
+      <PieChart results={results} />
     </div>
   );
 }
