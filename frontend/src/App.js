@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import PriceTable from "./components/PriceTable";
 import PieChart from "./components/PieChart";
+import BarChart from "./components/BarChart";
 
 function App() {
   const [inputTokens, setInputTokens] = useState(2000);
@@ -17,7 +17,7 @@ function App() {
       .then((res) => {
         const keys = Object.keys(res.data);
         setProviders(keys);
-        setSelectedProviders(keys); // select all by default
+        setSelectedProviders(keys);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -49,6 +49,7 @@ function App() {
     <div style={{ padding: "40px", fontFamily: "Arial" }}>
       <h1>AI Price Checker</h1>
 
+      {/* Inputs */}
       <div style={{ marginTop: "20px" }}>
         <label>Input Tokens:</label>
         <input
@@ -100,11 +101,15 @@ function App() {
         Calculate Price
       </button>
 
-      {/* Show table */}
-      <PriceTable results={results} />
-
-      {/* Show pie chart */}
-      <PieChart results={results} />
+      {/* Charts side by side */}
+      <div style={{ display: "flex", justifyContent: "space-around", marginTop: "40px" }}>
+        <div style={{ flex: 1, maxWidth: "600px" }}>
+          <BarChart results={results} />
+        </div>
+        <div style={{ flex: 1, maxWidth: "500px" }}>
+          <PieChart results={results} />
+        </div>
+      </div>
     </div>
   );
 }
