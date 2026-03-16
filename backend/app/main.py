@@ -2,8 +2,16 @@ from fastapi import FastAPI
 from .models import UsageRequest
 from .services import load_pricing
 from .calculator import calculate_cost
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="AI Price Checker API")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # allow frontend to access
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 pricing_data = load_pricing()
 
