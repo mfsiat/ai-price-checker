@@ -1,51 +1,38 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-  Title,
-} from "chart.js";
-
-// Register chart components
-ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
 const PieChart = ({ results }) => {
   if (!results || results.length === 0) return null;
+
+  const colors = [
+    "#FF6384","#36A2EB","#FFCE56","#8AFF33",
+    "#AA33FF","#FF8C00","#00CED1","#FF1493"
+  ];
 
   const data = {
     labels: results.map((item) => item.provider),
     datasets: [
       {
-        label: "Monthly Cost ($)",
         data: results.map((item) => item.monthly_cost),
-        backgroundColor: [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56",
-          "#8AFF33",
-          "#AA33FF",
-        ],
-        borderColor: "#fff",
-        borderWidth: 1,
+        backgroundColor: results.map((_, i) => colors[i % colors.length]),
       },
     ],
   };
 
   const options = {
-    responsive: true,
     plugins: {
-      legend: { position: "bottom" },
-      title: { display: true, text: "AI Tools Monthly Cost Comparison" },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const item = results[context.dataIndex];
+            return `${item.provider} (${item.model}): $${item.monthly_cost}`;
+          },
+        },
+      },
     },
   };
 
-  return (
-    <div style={{ maxWidth: "500px", marginTop: "40px" }}>
-      <Pie data={data} options={options} />
-    </div>
-  );
+  return <Pie data={data} options={options} />;
 };
 
 export default PieChart;
