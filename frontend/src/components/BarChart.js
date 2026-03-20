@@ -1,23 +1,17 @@
-import React from "react";
-import { Bar } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
-  Tooltip,
+  CategoryScale,
+  Chart as ChartJS,
   Legend,
+  LinearScale,
+  Tooltip,
 } from "chart.js";
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const BarChart = ({ results }) => {
-  if (!results || results.length === 0) return null;
-
-  const colors = [
-    "#FF6384","#36A2EB","#FFCE56","#8AFF33",
-    "#AA33FF","#FF8C00","#00CED1","#FF1493"
-  ];
+  if (!results || results.length === 0) return <p>No data</p>;
 
   const data = {
     labels: results.map(
@@ -27,7 +21,6 @@ const BarChart = ({ results }) => {
       {
         label: "Monthly Cost ($)",
         data: results.map((item) => item.monthly_cost),
-        backgroundColor: results.map((_, i) => colors[i % colors.length]),
       },
     ],
   };

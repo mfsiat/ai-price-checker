@@ -29,12 +29,6 @@ function App() {
 
   const calculate = async () => {
     try {
-      // ✅ Prevent empty payload (VERY IMPORTANT)
-      if (!selectedModels || Object.keys(selectedModels).length === 0) {
-        console.error("No models selected");
-        return;
-      }
-
       const payload = {
         input_tokens: Number(inputTokens),
         output_tokens: Number(outputTokens),
@@ -42,11 +36,11 @@ function App() {
         selected_models: selectedModels,
       };
 
-      console.log("Sending payload:", payload); // 🔍 DEBUG
+      console.log("Sending:", payload);
 
       const res = await calculatePrice(payload);
 
-      console.log("Response:", res.data); // 🔍 DEBUG
+      console.log("Response:", res.data);
 
       setResults(res.data.results);
     } catch (err) {
@@ -78,7 +72,7 @@ function App() {
       </div>
 
       <div>
-        <label>Requests per day:</label>
+        <label>Requests/day:</label>
         <input
           type="number"
           value={requests}
@@ -93,6 +87,9 @@ function App() {
       />
 
       <button onClick={calculate}>Calculate</button>
+
+      {/* DEBUG (remove later) */}
+      <pre>{JSON.stringify(results, null, 2)}</pre>
 
       {/* Model Cards */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
