@@ -1,96 +1,68 @@
+import json
+import threading
+import time
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .calculator import calculate_cost
 from .models import UsageRequest
-from .services import load_pricing
 
+# -----------------------------
+# Initialize FastAPI
+# -----------------------------
 app = FastAPI(title="AI Price Checker API")
+
+# -----------------------------
+# Enable CORS (for frontend)
+# -----------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # allow frontend to access
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-pricing_data = load_pricing()
+# -----------------------------
+# Load Pricing Data
+# -----------------------------
+def load_pricing():
+    with open("app/pricing.json") as f:
+        return json.load(f)
 
+pricing = load_pricing()
 
+# -----------------------------
+# Optional: Auto-refresh pricing (every 1 hour)
+# -----------------------------
+def refresh_pricing():
+    global pricing
+    while True:
+        try:
+            pricing = load_pricing()
+        except Exception as e:
+            print("Pricing reload failed:", e)
+        time.sleep(3600)
+
+threading.Thread(target=refresh_pricing, daemon=True).start()
+
+# -----------------------------
+# Health Check
+# -----------------------------
 @app.get("/")
 def health():
     return {"status": "running"}
 
-
+# -----------------------------
+# Get All Providers & Models
+# -----------------------------
 @app.get("/providers")
 def get_providers():
-    return pricing_data
+    return pricing
 
-
-# @app.post("/calculate")
-# def calculate(request: UsageRequest):
-
-#     results = []
-
-#     for provider in request.providers:
-
-#         if provider not in pricing_data:
-#             continue
-
-#         pricing = pricing_data[provider]
-
-#         cost = calculate_cost(
-#             pricing,
-#             request.input_tokens,
-#             request.output_tokens,
-#             request.requests_per_day
-#         )
-
-#         results.append({
-#             "provider": provider,
-#             "model": pricing["model"],
-#             "monthly_cost": cost
-#         })
-
-#     return {"results": results}
-#     return {"results": results}
-#     return {"results": results}
-
-@app.post("/calculate")
-def calculate(request: UsageRequest):
-    results = []
-
-    for provider, model in request.selected_models.items():
-        if provider not in pricing:
-            continue
-
-        model_data = pricing[provider]["models"].get(model)
-        if not model_data:
-            continue
-
-        input_cost = model_data["input"]
-        output_cost = model_data["output"]
-
-        daily_cost = (
-            (request.input_tokens / 1000) * input_cost +
-            (request.output_tokens / 1000) * output_cost
-        ) * request.requests_per_day
-
-        monthly_cost = daily_cost * 30
-
-        results.append({
-            "provider": provider,
-            "model": model,
-            "monthly_cost": round(monthly_cost, 2),
-            "context": model_data.get("context"),
-            "speed": model_data.get("speed"),
-            "tier": model_data.get("tier"),
-            "multimodal": model_data.get("multimodal"),
-            "vision": model_data.get("vision")
-        })
-
-    return {"results": results}
-
+# -----------------------------
+# Filter Models (Optional Advanced API)
+# -----------------------------
 @app.get("/models")
 def get_models(
     provider: str = None,
@@ -120,3 +92,46 @@ def get_models(
             result[p] = {"models": models}
 
     return result
+
+# -----------------------------
+# Calculate Pricing
+# -----------------------------
+@app.post("/calculate")
+def calculate(request: UsageRequest):
+    results = []
+
+    for provider, model in request.selected_models.items():
+        if provider not in pricing:
+            continue
+
+        model_data = pricing[provider]["models"].get(model)
+        if not model_data:
+            continue
+
+        input_cost = model_data["input"]
+        output_cost = model_data["output"]
+
+        # Cost per request
+        cost_per_request = (
+            (request.input_tokens / 1000) * input_cost +
+            (request.output_tokens / 1000) * output_cost
+        )
+
+        # Daily & Monthly
+        daily_cost = cost_per_request * request.requests_per_day
+        monthly_cost = daily_cost * 30
+
+        results.append({
+            "provider": provider,
+            "model": model,
+            "monthly_cost": round(monthly_cost, 2),
+
+            # Extra metadata (from pricing.json)
+            "context": model_data.get("context"),
+            "speed": model_data.get("speed"),
+            "tier": model_data.get("tier"),
+            "multimodal": model_data.get("multimodal"),
+            "vision": model_data.get("vision")
+        })
+
+    return {"results": results}
