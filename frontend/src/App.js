@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { getProviders, calculatePrice } from "./api";
-import ModelSelector from "./components/ModelSelector";
-import ModelCard from "./components/ModelCard";
+import { useEffect, useState } from "react";
+import { calculatePrice, getProviders } from "./api";
 import BarChart from "./components/BarChart";
+import ModelCard from "./components/ModelCard";
+import ModelSelector from "./components/ModelSelector";
 import PieChart from "./components/PieChart";
 
 function App() {
@@ -28,14 +28,30 @@ function App() {
   }, []);
 
   const calculate = async () => {
-    const res = await calculatePrice({
-      input_tokens: inputTokens,
-      output_tokens: outputTokens,
-      requests_per_day: requests,
-      selected_models: selectedModels,
-    });
+    try {
+      // ✅ Prevent empty payload (VERY IMPORTANT)
+      if (!selectedModels || Object.keys(selectedModels).length === 0) {
+        console.error("No models selected");
+        return;
+      }
 
-    setResults(res.data.results);
+      const payload = {
+        input_tokens: Number(inputTokens),
+        output_tokens: Number(outputTokens),
+        requests_per_day: Number(requests),
+        selected_models: selectedModels,
+      };
+
+      console.log("Sending payload:", payload); // 🔍 DEBUG
+
+      const res = await calculatePrice(payload);
+
+      console.log("Response:", res.data); // 🔍 DEBUG
+
+      setResults(res.data.results);
+    } catch (err) {
+      console.error("API Error:", err.response?.data || err.message);
+    }
   };
 
   return (
@@ -43,9 +59,32 @@ function App() {
       <h1>AI Price Checker 🚀</h1>
 
       {/* Inputs */}
-      <input value={inputTokens} onChange={(e) => setInputTokens(e.target.value)} />
-      <input value={outputTokens} onChange={(e) => setOutputTokens(e.target.value)} />
-      <input value={requests} onChange={(e) => setRequests(e.target.value)} />
+      <div>
+        <label>Input Tokens:</label>
+        <input
+          type="number"
+          value={inputTokens}
+          onChange={(e) => setInputTokens(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <label>Output Tokens:</label>
+        <input
+          type="number"
+          value={outputTokens}
+          onChange={(e) => setOutputTokens(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <label>Requests per day:</label>
+        <input
+          type="number"
+          value={requests}
+          onChange={(e) => setRequests(e.target.value)}
+        />
+      </div>
 
       <ModelSelector
         models={models}
