@@ -39,20 +39,18 @@ def calculate(request: UsageRequest):
         if not model_data:
             continue
 
-        input_cost = model_data["input"]
-        output_cost = model_data["output"]
-
-        daily_cost = (
-            (request.input_tokens / 1000) * input_cost +
-            (request.output_tokens / 1000) * output_cost
-        ) * request.requests_per_day
-
-        monthly_cost = daily_cost * 30
+        monthly_cost = calculate_cost(
+            model_data["input"],
+            model_data["output"],
+            request.input_tokens,
+            request.output_tokens,
+            request.requests_per_day,
+        )
 
         results.append({
             "provider": provider,
             "model": model,
-            "monthly_cost": round(monthly_cost, 2),
+            "monthly_cost": monthly_cost,
             "context": model_data.get("context"),
             "speed": model_data.get("speed"),
             "tier": model_data.get("tier"),
