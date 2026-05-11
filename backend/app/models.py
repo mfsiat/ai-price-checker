@@ -1,12 +1,12 @@
 from pydantic import BaseModel
-from typing import List
+from typing import Dict
 
 
 class UsageRequest(BaseModel):
     input_tokens: int
     output_tokens: int
     requests_per_day: int
-    providers: List[str]
+    selected_models: Dict[str, str]
 
 
 class ProviderCost(BaseModel):
