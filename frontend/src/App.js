@@ -43,9 +43,9 @@ function App() {
       <h1>AI Price Checker 🚀</h1>
 
       {/* Inputs */}
-      <input value={inputTokens} onChange={(e) => setInputTokens(e.target.value)} />
-      <input value={outputTokens} onChange={(e) => setOutputTokens(e.target.value)} />
-      <input value={requests} onChange={(e) => setRequests(e.target.value)} />
+      <input value={inputTokens} onChange={(e) => setInputTokens(parseInt(e.target.value, 10) || 0)} />
+      <input value={outputTokens} onChange={(e) => setOutputTokens(parseInt(e.target.value, 10) || 0)} />
+      <input value={requests} onChange={(e) => setRequests(parseInt(e.target.value, 10) || 0)} />
 
       <ModelSelector
         models={models}
