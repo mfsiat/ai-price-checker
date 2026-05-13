@@ -9,33 +9,44 @@ function App() {
   const [models, setModels] = useState({});
   const [selectedModels, setSelectedModels] = useState({});
   const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const [inputTokens, setInputTokens] = useState(2000);
   const [outputTokens, setOutputTokens] = useState(500);
   const [requests, setRequests] = useState(1000);
 
   useEffect(() => {
-    getProviders().then((res) => {
-      setModels(res.data);
+    getProviders()
+      .then((res) => {
+        setModels(res.data);
 
-      const defaults = {};
-      Object.keys(res.data).forEach((provider) => {
-        defaults[provider] = Object.keys(res.data[provider].models)[0];
-      });
+        const defaults = {};
+        Object.keys(res.data).forEach((provider) => {
+          defaults[provider] = Object.keys(res.data[provider].models)[0];
+        });
 
-      setSelectedModels(defaults);
-    });
+        setSelectedModels(defaults);
+      })
+      .catch(() => setError("Failed to load providers. Is the backend running?"));
   }, []);
 
   const calculate = async () => {
-    const res = await calculatePrice({
-      input_tokens: inputTokens,
-      output_tokens: outputTokens,
-      requests_per_day: requests,
-      selected_models: selectedModels,
-    });
-
-    setResults(res.data.results);
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await calculatePrice({
+        input_tokens: inputTokens,
+        output_tokens: outputTokens,
+        requests_per_day: requests,
+        selected_models: selectedModels,
+      });
+      setResults(res.data.results);
+    } catch {
+      setError("Calculation failed. Is the backend running?");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -53,7 +64,11 @@ function App() {
         setSelectedModels={setSelectedModels}
       />
 
-      <button onClick={calculate}>Calculate</button>
+      <button onClick={calculate} disabled={loading}>
+        {loading ? "Calculating..." : "Calculate"}
+      </button>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       {/* Model Cards */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
