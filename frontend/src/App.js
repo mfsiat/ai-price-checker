@@ -4,6 +4,7 @@ import ModelSelector from "./components/ModelSelector";
 import ModelCard from "./components/ModelCard";
 import BarChart from "./components/BarChart";
 import PieChart from "./components/PieChart";
+import PriceTable from "./components/PriceTable";
 
 function App() {
   const [models, setModels] = useState({});
@@ -98,6 +99,9 @@ function App() {
           <PieChart results={results} />
         </div>
       </div>
+
+      {/* Results Table */}
+      <PriceTable results={results} />
     </div>
   );
 }
