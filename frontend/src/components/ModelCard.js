@@ -1,6 +1,6 @@
 import React from "react";
 
-const ModelCard = ({ provider, model, data }) => {
+const ModelCard = ({ provider, model, data, monthlyCost }) => {
   if (!data) return null;
 
   return (
@@ -14,6 +14,9 @@ const ModelCard = ({ provider, model, data }) => {
       }}
     >
       <h4>{provider} - {model}</h4>
+      {monthlyCost !== undefined && (
+        <p><strong>Monthly Cost: ${monthlyCost}</strong></p>
+      )}
       <p>Context: {data.context}</p>
       <p>Speed: {data.speed}</p>
       <p>Tier: {data.tier}</p>

@@ -75,6 +75,7 @@ function App() {
         {Object.keys(selectedModels).map((provider) => {
           const model = selectedModels[provider];
           const data = models[provider]?.models?.[model];
+          const resultEntry = results.find((r) => r.provider === provider);
 
           return (
             <ModelCard
@@ -82,6 +83,7 @@ function App() {
               provider={provider}
               model={model}
               data={data}
+              monthlyCost={resultEntry?.monthly_cost}
             />
           );
         })}
