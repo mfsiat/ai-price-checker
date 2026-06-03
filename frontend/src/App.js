@@ -55,9 +55,20 @@ function App() {
       <h1>AI Price Checker 🚀</h1>
 
       {/* Inputs */}
-      <input value={inputTokens} onChange={(e) => setInputTokens(parseInt(e.target.value, 10) || 0)} />
-      <input value={outputTokens} onChange={(e) => setOutputTokens(parseInt(e.target.value, 10) || 0)} />
-      <input value={requests} onChange={(e) => setRequests(parseInt(e.target.value, 10) || 0)} />
+      <div style={{ marginBottom: "16px", display: "flex", gap: "20px", flexWrap: "wrap" }}>
+        <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+          Input tokens per request
+          <input value={inputTokens} onChange={(e) => setInputTokens(parseInt(e.target.value, 10) || 0)} type="number" min="1" />
+        </label>
+        <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+          Output tokens per request
+          <input value={outputTokens} onChange={(e) => setOutputTokens(parseInt(e.target.value, 10) || 0)} type="number" min="1" />
+        </label>
+        <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+          Requests per day
+          <input value={requests} onChange={(e) => setRequests(parseInt(e.target.value, 10) || 0)} type="number" min="1" />
+        </label>
+      </div>
 
       <ModelSelector
         models={models}
