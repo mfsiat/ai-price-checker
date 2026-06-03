@@ -1,15 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Dict
 
 
 class UsageRequest(BaseModel):
-    input_tokens: int
-    output_tokens: int
-    requests_per_day: int
+    input_tokens: int = Field(gt=0)
+    output_tokens: int = Field(gt=0)
+    requests_per_day: int = Field(gt=0)
     selected_models: Dict[str, str]
-
-
-class ProviderCost(BaseModel):
-    provider: str
-    model: str
-    monthly_cost: float
