@@ -42,7 +42,7 @@ function App() {
         requests_per_day: requests,
         selected_models: selectedModels,
       });
-      setResults(res.data.results);
+      setResults([...res.data.results].sort((a, b) => a.monthly_cost - b.monthly_cost));
     } catch {
       setError("Calculation failed. Is the backend running?");
     } finally {
