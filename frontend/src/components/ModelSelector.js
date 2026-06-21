@@ -19,7 +19,7 @@ const ModelSelector = ({ models, selectedModels, setSelectedModels }) => {
           >
             {Object.entries(models[provider].models).map(([model, data]) => (
               <option key={model} value={model}>
-                {model} | ${data.input}/${data.output} | {data.speed} | {data.tier}
+                {model} | ${data.input.toFixed(2)}/${data.output.toFixed(2)} | {data.speed} | {data.tier}
               </option>
             ))}
           </select>
