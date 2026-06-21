@@ -14,7 +14,7 @@ const PriceTable = ({ results }) => {
       </thead>
       <tbody>
         {results.map((item) => (
-          <tr key={item.provider}>
+          <tr key={`${item.provider}-${item.model}`}>
             <td>{item.provider}</td>
             <td>{item.model}</td>
             <td>{item.monthly_cost}</td>
