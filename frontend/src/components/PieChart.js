@@ -1,16 +1,14 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import chartColors from "../chartColors";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart = ({ results }) => {
   if (!results || results.length === 0) return null;
 
-  const colors = [
-    "#FF6384","#36A2EB","#FFCE56","#8AFF33",
-    "#AA33FF","#FF8C00","#00CED1","#FF1493"
-  ];
+  const colors = chartColors;
 
   const data = {
     labels: results.map((item) => item.provider),

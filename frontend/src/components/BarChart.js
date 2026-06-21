@@ -8,16 +8,14 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import chartColors from "../chartColors";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const BarChart = ({ results }) => {
   if (!results || results.length === 0) return null;
 
-  const colors = [
-    "#FF6384","#36A2EB","#FFCE56","#8AFF33",
-    "#AA33FF","#FF8C00","#00CED1","#FF1493"
-  ];
+  const colors = chartColors;
 
   const data = {
     labels: results.map(
