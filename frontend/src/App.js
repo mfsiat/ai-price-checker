@@ -33,6 +33,10 @@ function App() {
   }, []);
 
   const calculate = async () => {
+    if (inputTokens < 1 || outputTokens < 1 || requests < 1) {
+      setError("All token inputs must be at least 1.");
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -87,7 +91,7 @@ function App() {
         {Object.keys(selectedModels).map((provider) => {
           const model = selectedModels[provider];
           const data = models[provider]?.models?.[model];
-          const resultEntry = results.find((r) => r.provider === provider);
+          const resultEntry = results.find((r) => r.provider === provider && r.model === model);
 
           return (
             <ModelCard
