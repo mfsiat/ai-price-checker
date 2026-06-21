@@ -10,7 +10,7 @@ from .services import load_pricing
 app = FastAPI(title="AI Price Checker API")
 
 _raw = os.getenv("CORS_ORIGINS", "http://localhost:3000")
-allowed_origins = [o.strip() for o in _raw.split(",")]
+allowed_origins = [o.strip() for o in _raw.split(",") if o.strip()]
 
 app.add_middleware(
     CORSMiddleware,
