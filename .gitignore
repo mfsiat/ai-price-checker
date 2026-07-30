@@ -23,6 +23,8 @@ dist/
 # Environment variables
 .env
 .env.*
+# ...but keep the committed production API URL for the frontend build
+!frontend/.env.production
 
 # -----------------------------
 # Node / React
