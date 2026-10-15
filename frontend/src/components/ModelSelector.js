@@ -1,12 +1,11 @@
 import React from "react";
+
 const ModelSelector = ({ models, selectedModels, setSelectedModels }) => {
   return (
-    <div>
-      <h3>Select Models</h3>
-
+    <div className="selector-grid">
       {Object.keys(models).map((provider) => (
-        <div key={provider} style={{ marginBottom: "10px" }}>
-          <label style={{ marginRight: "10px" }}>{provider}</label>
+        <div key={provider} className="selector-row">
+          <span className="selector-provider">{provider}</span>
 
           <select
             value={selectedModels[provider] || ""}
@@ -19,7 +18,8 @@ const ModelSelector = ({ models, selectedModels, setSelectedModels }) => {
           >
             {Object.entries(models[provider].models).map(([model, data]) => (
               <option key={model} value={model}>
-                {model} | ${data.input.toFixed(2)}/${data.output.toFixed(2)} | {data.speed} | {data.tier}
+                {model} | ${data.input.toFixed(2)}/${data.output.toFixed(2)} |{" "}
+                {data.speed} | {data.tier}
               </option>
             ))}
           </select>

@@ -1,13 +1,505 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+/* ============================================================
+   AI Price Checker — Theme & Design System
+   ============================================================ */
+
+/* ---------- Design tokens ---------- */
+:root {
+  /* Brand */
+  --brand-500: #6366f1;
+  --brand-600: #4f46e5;
+  --brand-400: #818cf8;
+  --accent-500: #06b6d4;
+
+  /* Light theme surfaces */
+  --bg: #f5f6fb;
+  --bg-grad-1: #eef1fb;
+  --bg-grad-2: #f7f5fd;
+  --surface: #ffffff;
+  --surface-2: #f8f9fc;
+  --border: #e6e8f0;
+  --border-strong: #d4d8e6;
+
+  /* Text */
+  --text: #1a1c2b;
+  --text-muted: #646a85;
+  --text-faint: #9aa0bc;
+
+  /* Feedback */
+  --success: #16a34a;
+  --danger: #dc2626;
+  --danger-bg: #fef2f2;
+  --danger-border: #fecaca;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(20, 24, 56, 0.06);
+  --shadow-md: 0 4px 16px rgba(20, 24, 56, 0.08);
+  --shadow-lg: 0 12px 36px rgba(20, 24, 56, 0.12);
+
+  /* Shape & motion */
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 20px;
+  --space: 8px;
+  --ring: 0 0 0 3px rgba(99, 102, 241, 0.25);
+  --transition: 160ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --bg: #0b0d1a;
+  --bg-grad-1: #121530;
+  --bg-grad-2: #0d1022;
+  --surface: #161a2e;
+  --surface-2: #1d2238;
+  --border: #272c45;
+  --border-strong: #363c5c;
+
+  --text: #eef0fa;
+  --text-muted: #a3a9c9;
+  --text-faint: #6b7199;
+
+  --danger: #f87171;
+  --danger-bg: #2a1515;
+  --danger-border: #5c2626;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.55);
+  --ring: 0 0 0 3px rgba(129, 140, 248, 0.35);
+}
+
+/* ---------- Reset / base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Helvetica Neue", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  background-image: radial-gradient(
+      1200px 600px at 80% -10%,
+      var(--bg-grad-1),
+      transparent 60%
+    ),
+    radial-gradient(1000px 500px at -10% 10%, var(--bg-grad-2), transparent 55%);
+  background-attachment: fixed;
+  transition: background-color var(--transition), color var(--transition);
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* ---------- Layout ---------- */
+.app {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+.app-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.app-title {
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--brand-500), var(--accent-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.app-subtitle {
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- Theme toggle ---------- */
+.theme-toggle {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition);
+}
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+
+/* ---------- Card ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 22px;
+}
+
+.card + .card {
+  margin-top: 20px;
+}
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------- Form controls ---------- */
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.field-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+input[type="number"],
+select {
+  width: 100%;
+  padding: 11px 13px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition), box-shadow var(--transition);
+  appearance: none;
+}
+
+select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23646a85' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 38px;
+}
+
+input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: var(--brand-500);
+  box-shadow: var(--ring);
+}
+
+/* ---------- Selector rows ---------- */
+.selector-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.selector-row {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.selector-provider {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+  text-transform: capitalize;
+}
+
+/* ---------- Button ---------- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-500), var(--brand-600));
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition), box-shadow var(--transition),
+    opacity var(--transition);
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+.btn-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.actions-row {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ---------- Spinner ---------- */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Alerts ---------- */
+.alert-error {
+  margin-top: 16px;
+  padding: 12px 16px;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* ---------- Model cards ---------- */
+.model-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.model-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition);
+}
+.model-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+.model-card.is-best {
+  border-color: var(--brand-400);
+  box-shadow: 0 0 0 1px var(--brand-400), var(--shadow-md);
+}
+
+.model-card-provider {
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--brand-500);
+}
+.model-card-name {
+  font-size: 1.02rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.model-cost {
+  margin: 14px 0;
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.model-cost span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.spec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 0.86rem;
+}
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.spec-key {
+  color: var(--text-muted);
+}
+.spec-val {
+  font-weight: 600;
+  text-align: right;
+}
+
+/* ---------- Badges ---------- */
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  text-transform: capitalize;
+}
+.badge-best {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-500), var(--accent-500));
+}
+.badge-yes {
+  color: var(--success);
+  background: rgba(22, 163, 74, 0.12);
+}
+.badge-no {
+  color: var(--text-faint);
+  background: var(--surface-2);
+}
+
+/* ---------- Charts ---------- */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 760px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.chart-box {
+  min-height: 280px;
+}
+
+/* ---------- Table ---------- */
+.price-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.92rem;
+}
+.price-table th {
+  text-align: left;
+  padding: 11px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  border-bottom: 2px solid var(--border);
+}
+.price-table td {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.price-table tbody tr {
+  transition: background var(--transition);
+}
+.price-table tbody tr:hover {
+  background: var(--surface-2);
+}
+.price-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.price-table .col-cost {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.rank-dot {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  margin-right: 10px;
+}
+.rank-dot.rank-1 {
+  background: linear-gradient(135deg, var(--brand-500), var(--accent-500));
+  color: #fff;
+}
+
+/* ---------- Empty state ---------- */
+.empty-state {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-muted);
+}
+.empty-state-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+.empty-state-text {
+  font-size: 0.95rem;
+}
+
+/* ---------- Section heading ---------- */
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 36px 0 16px;
 }

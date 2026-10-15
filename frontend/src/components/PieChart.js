@@ -5,10 +5,15 @@ import chartColors from "../chartColors";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const cssVar = (name) =>
+  getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
 const PieChart = ({ results }) => {
   if (!results || results.length === 0) return null;
 
   const colors = chartColors;
+  const textColor = cssVar("--text-muted") || "#646a85";
+  const borderColor = cssVar("--surface") || "#ffffff";
 
   const data = {
     labels: results.map((item) => item.provider),
@@ -16,12 +21,20 @@ const PieChart = ({ results }) => {
       {
         data: results.map((item) => item.monthly_cost),
         backgroundColor: results.map((_, i) => colors[i % colors.length]),
+        borderColor,
+        borderWidth: 2,
       },
     ],
   };
 
   const options = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
+      legend: {
+        position: "bottom",
+        labels: { color: textColor, padding: 14, usePointStyle: true },
+      },
       tooltip: {
         callbacks: {
           label: function (context) {

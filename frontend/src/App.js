@@ -17,6 +17,15 @@ function App() {
   const [outputTokens, setOutputTokens] = useState(500);
   const [requests, setRequests] = useState(1000);
 
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem("theme") || "light"
+  );
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
   useEffect(() => {
     getProviders()
       .then((res) => {
@@ -46,7 +55,9 @@ function App() {
         requests_per_day: requests,
         selected_models: selectedModels,
       });
-      setResults([...res.data.results].sort((a, b) => a.monthly_cost - b.monthly_cost));
+      setResults(
+        [...res.data.results].sort((a, b) => a.monthly_cost - b.monthly_cost)
+      );
     } catch {
       setError("Calculation failed. Is the backend running?");
     } finally {
@@ -54,44 +65,101 @@ function App() {
     }
   };
 
+  const cheapest = results.length ? results[0] : null;
+  const hasResults = results.length > 0;
+
   return (
-    <div style={{ padding: "30px" }}>
-      <h1>AI Price Checker 🚀</h1>
+    <div className="app">
+      <header className="app-header">
+        <div>
+          <h1 className="app-title">AI Price Checker 🚀</h1>
+          <p className="app-subtitle">
+            Compare monthly LLM costs across providers in seconds.
+          </p>
+        </div>
+        <button
+          className="theme-toggle"
+          onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
+          aria-label="Toggle color theme"
+        >
+          {theme === "light" ? "🌙 Dark" : "☀️ Light"}
+        </button>
+      </header>
 
       {/* Inputs */}
-      <div style={{ marginBottom: "16px", display: "flex", gap: "20px", flexWrap: "wrap" }}>
-        <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-          Input tokens per request
-          <input value={inputTokens} onChange={(e) => setInputTokens(parseInt(e.target.value, 10) || 0)} type="number" min="1" />
-        </label>
-        <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-          Output tokens per request
-          <input value={outputTokens} onChange={(e) => setOutputTokens(parseInt(e.target.value, 10) || 0)} type="number" min="1" />
-        </label>
-        <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-          Requests per day
-          <input value={requests} onChange={(e) => setRequests(parseInt(e.target.value, 10) || 0)} type="number" min="1" />
-        </label>
-      </div>
+      <section className="card">
+        <h2 className="card-title">⚙️ Usage</h2>
+        <div className="field-grid">
+          <label className="field">
+            <span className="field-label">Input tokens / request</span>
+            <input
+              value={inputTokens}
+              onChange={(e) => setInputTokens(parseInt(e.target.value, 10) || 0)}
+              type="number"
+              min="1"
+            />
+          </label>
+          <label className="field">
+            <span className="field-label">Output tokens / request</span>
+            <input
+              value={outputTokens}
+              onChange={(e) =>
+                setOutputTokens(parseInt(e.target.value, 10) || 0)
+              }
+              type="number"
+              min="1"
+            />
+          </label>
+          <label className="field">
+            <span className="field-label">Requests / day</span>
+            <input
+              value={requests}
+              onChange={(e) => setRequests(parseInt(e.target.value, 10) || 0)}
+              type="number"
+              min="1"
+            />
+          </label>
+        </div>
+      </section>
 
-      <ModelSelector
-        models={models}
-        selectedModels={selectedModels}
-        setSelectedModels={setSelectedModels}
-      />
-
-      <button onClick={calculate} disabled={loading}>
-        {loading ? "Calculating..." : "Calculate"}
-      </button>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {/* Model selection */}
+      <section className="card">
+        <h2 className="card-title">🧩 Models</h2>
+        <ModelSelector
+          models={models}
+          selectedModels={selectedModels}
+          setSelectedModels={setSelectedModels}
+        />
+        <div className="actions-row">
+          <button
+            className="btn-primary"
+            onClick={calculate}
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <span className="spinner" /> Calculating…
+              </>
+            ) : (
+              <>Calculate costs</>
+            )}
+          </button>
+        </div>
+        {error && <div className="alert-error">⚠️ {error}</div>}
+      </section>
 
       {/* Model Cards */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+      <div className="model-grid" style={{ marginTop: 24 }}>
         {Object.keys(selectedModels).map((provider) => {
           const model = selectedModels[provider];
           const data = models[provider]?.models?.[model];
-          const resultEntry = results.find((r) => r.provider === provider && r.model === model);
+          const resultEntry = results.find(
+            (r) => r.provider === provider && r.model === model
+          );
+          const isBest =
+            cheapest &&
+            cheapest.provider === provider &&
+            cheapest.model === model;
 
           return (
             <ModelCard
@@ -100,23 +168,42 @@ function App() {
               model={model}
               data={data}
               monthlyCost={resultEntry?.monthly_cost}
+              isBest={isBest}
             />
           );
         })}
       </div>
 
-      {/* Charts */}
-      <div style={{ display: "flex", marginTop: "40px" }}>
-        <div style={{ width: "50%" }}>
-          <BarChart results={results} />
-        </div>
-        <div style={{ width: "50%" }}>
-          <PieChart results={results} />
-        </div>
-      </div>
+      {/* Results */}
+      {hasResults ? (
+        <>
+          <h2 className="section-title">📊 Cost comparison</h2>
+          <section className="card">
+            <div className="charts-grid">
+              <div className="chart-box">
+                <BarChart results={results} />
+              </div>
+              <div className="chart-box">
+                <PieChart results={results} />
+              </div>
+            </div>
+          </section>
 
-      {/* Results Table */}
-      <PriceTable results={results} />
+          <section className="card">
+            <PriceTable results={results} />
+          </section>
+        </>
+      ) : (
+        <section className="card" style={{ marginTop: 24 }}>
+          <div className="empty-state">
+            <div className="empty-state-icon">📈</div>
+            <div className="empty-state-text">
+              Pick your models and hit <strong>Calculate costs</strong> to see a
+              side-by-side breakdown.
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
