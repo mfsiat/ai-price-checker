@@ -42,6 +42,8 @@ frontend/.next/
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+# ...but commit the frontend lockfile so CI installs are reproducible.
+!frontend/package-lock.json
 
 # -----------------------------
 # IDE / Editors
