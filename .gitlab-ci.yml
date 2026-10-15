@@ -1,0 +1,68 @@
+# GitLab CI/CD — AI Price Checker
+#
+# Validates the frontend test suite so a merge request cannot be merged into
+# master with failing tests. See frontend/TESTING.md for what is covered.
+
+stages:
+  - test
+  - build
+
+default:
+  image: node:20
+  # Cache the installed dependencies between pipelines, keyed on the lockfile.
+  cache:
+    key:
+      files:
+        - frontend/package-lock.json
+    paths:
+      - frontend/node_modules/
+
+# Run the frontend jobs only when relevant frontend files change, and only on
+# merge requests targeting master or on pushes to master itself.
+.frontend_rules: &frontend_rules
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+    - if: '$CI_COMMIT_BRANCH == "master"'
+
+# ---------------------------------------------------------------------------
+# Test — the gate for merging into master.
+# ---------------------------------------------------------------------------
+frontend:test:
+  stage: test
+  <<: *frontend_rules
+  before_script:
+    - cd frontend
+    - npm ci
+  script:
+    # CI=true makes react-scripts run once (no watch mode) and treats
+    # warnings as errors. Fails the pipeline if any test fails.
+    - CI=true npm test -- --coverage --watchAll=false --coverageReporters=text --coverageReporters=cobertura
+  # Surface the coverage percentage in the MR widget.
+  coverage: '/All files[^|]*\|[^|]*\s+([\d.]+)/'
+  artifacts:
+    when: always
+    expire_in: 1 week
+    paths:
+      - frontend/coverage/
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: frontend/coverage/cobertura-coverage.xml
+
+# ---------------------------------------------------------------------------
+# Build — ensures the production bundle still compiles.
+# ---------------------------------------------------------------------------
+frontend:build:
+  stage: build
+  <<: *frontend_rules
+  needs:
+    - frontend:test
+  before_script:
+    - cd frontend
+    - npm ci
+  script:
+    - CI=true npm run build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - frontend/build/
