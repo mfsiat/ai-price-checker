@@ -89,8 +89,8 @@ to `master`. Two equivalent configs are provided:
 
 Both define the same two jobs:
 
-- **`frontend:test`** (stage `test`) — installs deps with `npm install`
-  (the project does not commit a lockfile) and runs
+- **`frontend:test`** (stage `test`) — installs deps with `npm ci` (from the
+  committed `frontend/package-lock.json`) and runs
   `CI=true npm test ... --coverage`. This is the **merge gate**: a merge
   request into `master` cannot be merged while this job fails. Coverage is
   reported to the merge request widget (Cobertura).
