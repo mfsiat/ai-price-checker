@@ -79,7 +79,15 @@ suite:
 
 ## Continuous Integration
 
-`.gitlab-ci.yml` at the repository root defines the pipeline:
+The suite runs in CI on every merge/pull request into `master` and on pushes
+to `master`. Two equivalent configs are provided:
+
+- **GitHub Actions** — `.github/workflows/ci.yml` (runs on GitHub, where this
+  repo is currently hosted).
+- **GitLab CI** — `.gitlab-ci.yml` (runs if the repo is hosted on / mirrored
+  to GitLab).
+
+Both define the same two jobs:
 
 - **`frontend:test`** (stage `test`) — installs deps with `npm ci` and runs
   `CI=true npm test ... --coverage`. This is the **merge gate**: a merge
