@@ -46,6 +46,25 @@ The suite focuses on the interactive logic introduced by the UI redesign
 | `theme toggle › toggles back to light on a second click` | A second click returns to the light theme and updates `localStorage`. |
 | `theme toggle › restores a saved theme from localStorage on load` | A previously saved `theme=dark` is applied automatically on load. |
 
+### `src/pricing.test.js`
+
+Validates the backend pricing data (`backend/app/pricing.json`) that is served
+to the frontend via `GET /providers`. The file is read directly with `fs`
+(Create React App forbids importing modules from outside `src/`), then every
+provider/model entry is checked with parameterized `test.each` cases:
+
+| Test group | What it validates |
+| --- | --- |
+| top-level structure | Valid JSON; has `last_updated` (ISO `YYYY-MM-DD`) and a non-empty `providers` map; every provider has a non-empty `models` map. |
+| required fields | Each model has `input`, `output`, `context`, `multimodal`, `vision`, `speed`, `tier`. |
+| prices | `input`/`output` are finite numbers, `> 0` and `< 1000` ($/1M tokens). |
+| context window | `context` is a positive integer. |
+| capability flags | `multimodal`/`vision` are booleans; a `vision` model must also be `multimodal`. |
+| price sanity | `output >= input` (catches swapped input/output values). |
+
+This is the guard for the pricing refresh: a typo'd or malformed price fails CI
+before it can reach production.
+
 ### Test design notes
 
 These notes capture decisions that are easy to get wrong when extending the
