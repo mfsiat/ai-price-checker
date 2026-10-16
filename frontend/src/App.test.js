@@ -32,6 +32,16 @@ test("shows the empty state before any calculation", async () => {
   ).toBeInTheDocument();
 });
 
+test("shows the pricing last-updated date when provided", async () => {
+  getProviders.mockResolvedValue({
+    data: { last_updated: "2026-10-16", providers: {} },
+  });
+  await renderApp();
+  expect(
+    await screen.findByText(/pricing data updated 2026-10-16/i)
+  ).toBeInTheDocument();
+});
+
 describe("theme toggle", () => {
   // The button is identified by its aria-label; its visible text reflects
   // the theme it will switch *to*.

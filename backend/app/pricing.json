@@ -1,330 +1,333 @@
 {
-  "openai": {
-    "models": {
-      "gpt-4.1": {
-        "input": 2.00,
-        "output": 8.00,
-        "context": 1047576,
-        "multimodal": true,
-        "vision": true,
-        "speed": "fast",
-        "tier": "flagship"
-      },
-      "gpt-4.1-mini": {
-        "input": 0.40,
-        "output": 1.60,
-        "context": 1047576,
-        "multimodal": true,
-        "vision": true,
-        "speed": "very-fast",
-        "tier": "balanced"
-      },
-      "gpt-4.1-nano": {
-        "input": 0.10,
-        "output": 0.40,
-        "context": 1047576,
-        "multimodal": true,
-        "vision": true,
-        "speed": "very-fast",
-        "tier": "budget"
-      },
-      "gpt-4o": {
-        "input": 2.50,
-        "output": 10.00,
-        "context": 128000,
-        "multimodal": true,
-        "vision": true,
-        "speed": "fast",
-        "tier": "previous-flagship"
-      },
-      "gpt-4o-mini": {
-        "input": 0.15,
-        "output": 0.60,
-        "context": 128000,
-        "multimodal": true,
-        "vision": true,
-        "speed": "very-fast",
-        "tier": "budget"
-      },
-      "o3": {
-        "input": 10.00,
-        "output": 40.00,
-        "context": 200000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "slow",
-        "tier": "reasoning"
-      },
-      "o4-mini": {
-        "input": 1.10,
-        "output": 4.40,
-        "context": 200000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "medium",
-        "tier": "reasoning-budget"
-      },
-      "o1": {
-        "input": 15.00,
-        "output": 60.00,
-        "context": 200000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "slow",
-        "tier": "reasoning-premium"
+  "last_updated": "2026-10-16",
+  "providers": {
+    "openai": {
+      "models": {
+        "gpt-4.1": {
+          "input": 2.0,
+          "output": 8.0,
+          "context": 1047576,
+          "multimodal": true,
+          "vision": true,
+          "speed": "fast",
+          "tier": "flagship"
+        },
+        "gpt-4.1-mini": {
+          "input": 0.4,
+          "output": 1.6,
+          "context": 1047576,
+          "multimodal": true,
+          "vision": true,
+          "speed": "very-fast",
+          "tier": "balanced"
+        },
+        "gpt-4.1-nano": {
+          "input": 0.1,
+          "output": 0.4,
+          "context": 1047576,
+          "multimodal": true,
+          "vision": true,
+          "speed": "very-fast",
+          "tier": "budget"
+        },
+        "gpt-4o": {
+          "input": 2.5,
+          "output": 10.0,
+          "context": 128000,
+          "multimodal": true,
+          "vision": true,
+          "speed": "fast",
+          "tier": "previous-flagship"
+        },
+        "gpt-4o-mini": {
+          "input": 0.15,
+          "output": 0.6,
+          "context": 128000,
+          "multimodal": true,
+          "vision": true,
+          "speed": "very-fast",
+          "tier": "budget"
+        },
+        "o3": {
+          "input": 10.0,
+          "output": 40.0,
+          "context": 200000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "slow",
+          "tier": "reasoning"
+        },
+        "o4-mini": {
+          "input": 1.1,
+          "output": 4.4,
+          "context": 200000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "medium",
+          "tier": "reasoning-budget"
+        },
+        "o1": {
+          "input": 15.0,
+          "output": 60.0,
+          "context": 200000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "slow",
+          "tier": "reasoning-premium"
+        }
       }
-    }
-  },
-  "anthropic": {
-    "models": {
-      "claude-opus-4": {
-        "input": 15.00,
-        "output": 75.00,
-        "context": 200000,
-        "multimodal": true,
-        "vision": true,
-        "speed": "medium",
-        "tier": "flagship"
-      },
-      "claude-sonnet-4": {
-        "input": 3.00,
-        "output": 15.00,
-        "context": 200000,
-        "multimodal": true,
-        "vision": true,
-        "speed": "fast",
-        "tier": "balanced"
-      },
-      "claude-3-5-sonnet": {
-        "input": 3.00,
-        "output": 15.00,
-        "context": 200000,
-        "multimodal": true,
-        "vision": true,
-        "speed": "fast",
-        "tier": "balanced"
-      },
-      "claude-3-5-haiku": {
-        "input": 0.80,
-        "output": 4.00,
-        "context": 200000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "very-fast",
-        "tier": "budget"
-      },
-      "claude-3-haiku": {
-        "input": 0.25,
-        "output": 1.25,
-        "context": 200000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "very-fast",
-        "tier": "budget-legacy"
+    },
+    "anthropic": {
+      "models": {
+        "claude-opus-4": {
+          "input": 15.0,
+          "output": 75.0,
+          "context": 200000,
+          "multimodal": true,
+          "vision": true,
+          "speed": "medium",
+          "tier": "flagship"
+        },
+        "claude-sonnet-4": {
+          "input": 3.0,
+          "output": 15.0,
+          "context": 200000,
+          "multimodal": true,
+          "vision": true,
+          "speed": "fast",
+          "tier": "balanced"
+        },
+        "claude-3-5-sonnet": {
+          "input": 3.0,
+          "output": 15.0,
+          "context": 200000,
+          "multimodal": true,
+          "vision": true,
+          "speed": "fast",
+          "tier": "balanced"
+        },
+        "claude-3-5-haiku": {
+          "input": 0.8,
+          "output": 4.0,
+          "context": 200000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "very-fast",
+          "tier": "budget"
+        },
+        "claude-3-haiku": {
+          "input": 0.25,
+          "output": 1.25,
+          "context": 200000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "very-fast",
+          "tier": "budget-legacy"
+        }
       }
-    }
-  },
-  "google": {
-    "models": {
-      "gemini-2.5-pro": {
-        "input": 1.25,
-        "output": 10.00,
-        "context": 1000000,
-        "multimodal": true,
-        "vision": true,
-        "speed": "medium",
-        "tier": "flagship"
-      },
-      "gemini-2.0-flash": {
-        "input": 0.10,
-        "output": 0.40,
-        "context": 1000000,
-        "multimodal": true,
-        "vision": true,
-        "speed": "very-fast",
-        "tier": "budget"
-      },
-      "gemini-2.0-flash-lite": {
-        "input": 0.075,
-        "output": 0.30,
-        "context": 1000000,
-        "multimodal": true,
-        "vision": true,
-        "speed": "very-fast",
-        "tier": "budget"
-      },
-      "gemini-1.5-pro": {
-        "input": 1.25,
-        "output": 5.00,
-        "context": 2000000,
-        "multimodal": true,
-        "vision": true,
-        "speed": "medium",
-        "tier": "previous-flagship"
-      },
-      "gemini-1.5-flash": {
-        "input": 0.075,
-        "output": 0.30,
-        "context": 1000000,
-        "multimodal": true,
-        "vision": true,
-        "speed": "very-fast",
-        "tier": "legacy-budget"
+    },
+    "google": {
+      "models": {
+        "gemini-2.5-pro": {
+          "input": 1.25,
+          "output": 10.0,
+          "context": 1000000,
+          "multimodal": true,
+          "vision": true,
+          "speed": "medium",
+          "tier": "flagship"
+        },
+        "gemini-2.0-flash": {
+          "input": 0.1,
+          "output": 0.4,
+          "context": 1000000,
+          "multimodal": true,
+          "vision": true,
+          "speed": "very-fast",
+          "tier": "budget"
+        },
+        "gemini-2.0-flash-lite": {
+          "input": 0.075,
+          "output": 0.3,
+          "context": 1000000,
+          "multimodal": true,
+          "vision": true,
+          "speed": "very-fast",
+          "tier": "budget"
+        },
+        "gemini-1.5-pro": {
+          "input": 1.25,
+          "output": 5.0,
+          "context": 2000000,
+          "multimodal": true,
+          "vision": true,
+          "speed": "medium",
+          "tier": "previous-flagship"
+        },
+        "gemini-1.5-flash": {
+          "input": 0.075,
+          "output": 0.3,
+          "context": 1000000,
+          "multimodal": true,
+          "vision": true,
+          "speed": "very-fast",
+          "tier": "legacy-budget"
+        }
       }
-    }
-  },
-  "meta": {
-    "models": {
-      "llama-4-maverick": {
-        "input": 0.20,
-        "output": 0.20,
-        "context": 1000000,
-        "multimodal": true,
-        "vision": true,
-        "speed": "fast",
-        "tier": "open-weight"
-      },
-      "llama-4-scout": {
-        "input": 0.18,
-        "output": 0.18,
-        "context": 512000,
-        "multimodal": true,
-        "vision": true,
-        "speed": "very-fast",
-        "tier": "open-weight-budget"
-      },
-      "llama-3.3-70b": {
-        "input": 0.90,
-        "output": 0.90,
-        "context": 128000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "medium",
-        "tier": "open-weight"
-      },
-      "llama-3.1-8b": {
-        "input": 0.18,
-        "output": 0.18,
-        "context": 128000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "fast",
-        "tier": "open-weight-budget"
+    },
+    "meta": {
+      "models": {
+        "llama-4-maverick": {
+          "input": 0.2,
+          "output": 0.2,
+          "context": 1000000,
+          "multimodal": true,
+          "vision": true,
+          "speed": "fast",
+          "tier": "open-weight"
+        },
+        "llama-4-scout": {
+          "input": 0.18,
+          "output": 0.18,
+          "context": 512000,
+          "multimodal": true,
+          "vision": true,
+          "speed": "very-fast",
+          "tier": "open-weight-budget"
+        },
+        "llama-3.3-70b": {
+          "input": 0.9,
+          "output": 0.9,
+          "context": 128000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "medium",
+          "tier": "open-weight"
+        },
+        "llama-3.1-8b": {
+          "input": 0.18,
+          "output": 0.18,
+          "context": 128000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "fast",
+          "tier": "open-weight-budget"
+        }
       }
-    }
-  },
-  "mistral": {
-    "models": {
-      "mistral-large-2": {
-        "input": 2.00,
-        "output": 6.00,
-        "context": 128000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "medium",
-        "tier": "flagship"
-      },
-      "mistral-small-3": {
-        "input": 0.10,
-        "output": 0.30,
-        "context": 128000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "very-fast",
-        "tier": "budget"
-      },
-      "codestral": {
-        "input": 0.30,
-        "output": 0.90,
-        "context": 256000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "fast",
-        "tier": "code"
+    },
+    "mistral": {
+      "models": {
+        "mistral-large-2": {
+          "input": 2.0,
+          "output": 6.0,
+          "context": 128000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "medium",
+          "tier": "flagship"
+        },
+        "mistral-small-3": {
+          "input": 0.1,
+          "output": 0.3,
+          "context": 128000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "very-fast",
+          "tier": "budget"
+        },
+        "codestral": {
+          "input": 0.3,
+          "output": 0.9,
+          "context": 256000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "fast",
+          "tier": "code"
+        }
       }
-    }
-  },
-  "cohere": {
-    "models": {
-      "command-r-plus": {
-        "input": 2.50,
-        "output": 10.00,
-        "context": 128000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "medium",
-        "tier": "enterprise"
-      },
-      "command-r": {
-        "input": 0.15,
-        "output": 0.60,
-        "context": 128000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "fast",
-        "tier": "enterprise-budget"
+    },
+    "cohere": {
+      "models": {
+        "command-r-plus": {
+          "input": 2.5,
+          "output": 10.0,
+          "context": 128000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "medium",
+          "tier": "enterprise"
+        },
+        "command-r": {
+          "input": 0.15,
+          "output": 0.6,
+          "context": 128000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "fast",
+          "tier": "enterprise-budget"
+        }
       }
-    }
-  },
-  "deepseek": {
-    "models": {
-      "deepseek-v3": {
-        "input": 0.27,
-        "output": 1.10,
-        "context": 64000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "fast",
-        "tier": "budget"
-      },
-      "deepseek-r1": {
-        "input": 0.55,
-        "output": 2.19,
-        "context": 64000,
-        "multimodal": false,
-        "vision": false,
-        "speed": "slow",
-        "tier": "reasoning"
-      },
-      "deepseek-coder": {
-        "input": 0.14,
-        "output": 0.28,
-        "context": 16384,
-        "multimodal": false,
-        "vision": false,
-        "speed": "very-fast",
-        "tier": "developer"
+    },
+    "deepseek": {
+      "models": {
+        "deepseek-v3": {
+          "input": 0.27,
+          "output": 1.1,
+          "context": 64000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "fast",
+          "tier": "budget"
+        },
+        "deepseek-r1": {
+          "input": 0.55,
+          "output": 2.19,
+          "context": 64000,
+          "multimodal": false,
+          "vision": false,
+          "speed": "slow",
+          "tier": "reasoning"
+        },
+        "deepseek-coder": {
+          "input": 0.14,
+          "output": 0.28,
+          "context": 16384,
+          "multimodal": false,
+          "vision": false,
+          "speed": "very-fast",
+          "tier": "developer"
+        }
       }
-    }
-  },
-  "grok": {
-    "models": {
-      "grok-3": {
-        "input": 3.00,
-        "output": 15.00,
-        "context": 131072,
-        "multimodal": false,
-        "vision": false,
-        "speed": "medium",
-        "tier": "flagship"
-      },
-      "grok-3-mini": {
-        "input": 0.30,
-        "output": 0.50,
-        "context": 131072,
-        "multimodal": false,
-        "vision": false,
-        "speed": "fast",
-        "tier": "budget"
-      },
-      "grok-2": {
-        "input": 2.00,
-        "output": 10.00,
-        "context": 131072,
-        "multimodal": true,
-        "vision": true,
-        "speed": "fast",
-        "tier": "previous-flagship"
+    },
+    "grok": {
+      "models": {
+        "grok-3": {
+          "input": 3.0,
+          "output": 15.0,
+          "context": 131072,
+          "multimodal": false,
+          "vision": false,
+          "speed": "medium",
+          "tier": "flagship"
+        },
+        "grok-3-mini": {
+          "input": 0.3,
+          "output": 0.5,
+          "context": 131072,
+          "multimodal": false,
+          "vision": false,
+          "speed": "fast",
+          "tier": "budget"
+        },
+        "grok-2": {
+          "input": 2.0,
+          "output": 10.0,
+          "context": 131072,
+          "multimodal": true,
+          "vision": true,
+          "speed": "fast",
+          "tier": "previous-flagship"
+        }
       }
     }
   }

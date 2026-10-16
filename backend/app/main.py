@@ -20,7 +20,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-pricing = load_pricing()
+_data = load_pricing()
+pricing = _data.get("providers", {})
+last_updated = _data.get("last_updated")
 
 
 @app.get("/")
@@ -30,7 +32,7 @@ def health():
 
 @app.get("/providers")
 def get_providers():
-    return pricing
+    return {"last_updated": last_updated, "providers": pricing}
 
 
 @app.post("/calculate")

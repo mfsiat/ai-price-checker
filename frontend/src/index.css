@@ -139,6 +139,13 @@ h4 {
   font-size: 0.95rem;
 }
 
+.app-meta {
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
 /* ---------- Theme toggle ---------- */
 .theme-toggle {
   flex-shrink: 0;
