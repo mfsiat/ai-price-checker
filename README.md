@@ -2,6 +2,8 @@
 
 A full-stack web app for estimating and comparing monthly LLM API costs across providers (OpenAI, Anthropic, Google, and more). Enter your expected token usage and request volume to see a side-by-side cost breakdown with charts and tables.
 
+![AI Price Checker front page](docs/screenshot.png)
+
 ## Live URLs
 
 | Service  | URL                                             |
