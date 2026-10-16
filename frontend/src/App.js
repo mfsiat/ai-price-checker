@@ -8,6 +8,7 @@ import PriceTable from "./components/PriceTable";
 
 function App() {
   const [models, setModels] = useState({});
+  const [lastUpdated, setLastUpdated] = useState(null);
   const [selectedModels, setSelectedModels] = useState({});
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -29,11 +30,13 @@ function App() {
   useEffect(() => {
     getProviders()
       .then((res) => {
-        setModels(res.data);
+        const providers = res.data.providers || {};
+        setModels(providers);
+        setLastUpdated(res.data.last_updated || null);
 
         const defaults = {};
-        Object.keys(res.data).forEach((provider) => {
-          defaults[provider] = Object.keys(res.data[provider].models)[0];
+        Object.keys(providers).forEach((provider) => {
+          defaults[provider] = Object.keys(providers[provider].models)[0];
         });
 
         setSelectedModels(defaults);
@@ -76,6 +79,9 @@ function App() {
           <p className="app-subtitle">
             Compare monthly LLM costs across providers in seconds.
           </p>
+          {lastUpdated && (
+            <p className="app-meta">Pricing data updated {lastUpdated}</p>
+          )}
         </div>
         <button
           className="theme-toggle"
