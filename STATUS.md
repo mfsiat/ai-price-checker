@@ -43,11 +43,17 @@
 
 ---
 
-## Remaining Known Issues (non-critical)
+## Remaining Known Issues
 
-- `pricing` is loaded once at startup — updating `pricing.json` on disk requires a process restart (no hot-reload).
-- `/calculate` silently returns HTTP 200 with empty results for unrecognised model names (e.g. stale client still sending old model name after a rename). No error is surfaced to the caller.
-- No `last_updated` timestamp on pricing data.
+All previously-tracked issues have been addressed by the production-readiness
+work (branch `improve/production-readiness`):
+
+- ~~`pricing` is loaded once at startup with no hot-reload.~~ → `PricingRepository.reload()` re-reads the file without a restart; a documented refresh workflow lives in [docs/PRICING.md](docs/PRICING.md).
+- ~~`/calculate` silently returns empty results for unknown models.~~ → the response now includes a `warnings` array naming skipped provider/models, surfaced in the UI.
+- ~~No `last_updated` timestamp.~~ → the dataset now carries `version`, `last_updated`, and `source`, exposed via `/providers` and `/health` and validated in CI.
+
+See the [README](README.md) for current configuration, operations, and the API
+contract, which are now the authoritative references.
 
 ---
 
