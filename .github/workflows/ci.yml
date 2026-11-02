@@ -86,5 +86,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-dev.txt
 
+      - name: Lint
+        run: ruff check .
+
+      - name: Validate pricing data
+        run: python -m scripts.validate_pricing
+
       - name: Run tests
         run: python -m pytest
