@@ -25,6 +25,8 @@ dist/
 .env.*
 # ...but keep the committed production API URL for the frontend build
 !frontend/.env.production
+# ...and the backend config template (contains no secrets)
+!backend/.env.example
 
 # -----------------------------
 # Node / React

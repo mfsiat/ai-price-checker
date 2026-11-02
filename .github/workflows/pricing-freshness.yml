@@ -1,0 +1,32 @@
+# Scheduled reminder that the pricing dataset is going stale.
+#
+# Runs monthly and fails if backend/app/pricing.json is older than the
+# threshold, surfacing a nudge to refresh it. See docs/PRICING.md.
+
+name: Pricing freshness
+
+on:
+  schedule:
+    # 09:00 UTC on the 1st of every month.
+    - cron: "0 9 1 * *"
+  workflow_dispatch: {}
+
+jobs:
+  freshness:
+    name: Check pricing freshness
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install runtime deps
+        run: pip install -r requirements.txt
+
+      - name: Validate + check freshness (max 120 days)
+        run: python -m scripts.validate_pricing --max-age-days 120

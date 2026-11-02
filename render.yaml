@@ -6,6 +6,12 @@ services:
     plan: free
     healthCheckPath: /
     envVars:
+      # Marks this as production: the app refuses to boot with a wildcard or
+      # missing CORS origin (see backend/app/config.py).
+      - key: ENVIRONMENT
+        value: production
       # Set this to your deployed frontend origin, e.g. https://ai-price-checker.vercel.app
       - key: CORS_ORIGINS
         sync: false
+      - key: LOG_LEVEL
+        value: INFO

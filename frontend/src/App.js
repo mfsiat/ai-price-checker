@@ -11,6 +11,8 @@ function App() {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [selectedModels, setSelectedModels] = useState({});
   const [results, setResults] = useState([]);
+  const [warnings, setWarnings] = useState([]);
+  const [hasCalculated, setHasCalculated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -58,9 +60,14 @@ function App() {
         requests_per_day: requests,
         selected_models: selectedModels,
       });
+      const data = res.data || {};
       setResults(
-        [...res.data.results].sort((a, b) => a.monthly_cost - b.monthly_cost)
+        (data.results || [])
+          .slice()
+          .sort((a, b) => a.monthly_cost - b.monthly_cost)
       );
+      setWarnings(data.warnings || []);
+      setHasCalculated(true);
     } catch {
       setError("Calculation failed. Is the backend running?");
     } finally {
@@ -152,6 +159,13 @@ function App() {
           </button>
         </div>
         {error && <div className="alert-error">⚠️ {error}</div>}
+        {warnings.length > 0 && (
+          <div className="alert-warning">
+            ⚠️ Skipped {warnings.length} unrecognized model
+            {warnings.length > 1 ? "s" : ""}:{" "}
+            {warnings.map((w) => `${w.provider}/${w.model}`).join(", ")}
+          </div>
+        )}
       </section>
 
       {/* Model Cards */}
@@ -202,10 +216,19 @@ function App() {
       ) : (
         <section className="card" style={{ marginTop: 24 }}>
           <div className="empty-state">
-            <div className="empty-state-icon">📈</div>
+            <div className="empty-state-icon">{hasCalculated ? "🤔" : "📈"}</div>
             <div className="empty-state-text">
-              Pick your models and hit <strong>Calculate costs</strong> to see a
-              side-by-side breakdown.
+              {hasCalculated ? (
+                <>
+                  No results to show — none of the selected models were found in
+                  the pricing data. Try different models.
+                </>
+              ) : (
+                <>
+                  Pick your models and hit <strong>Calculate costs</strong> to
+                  see a side-by-side breakdown.
+                </>
+              )}
             </div>
           </div>
         </section>
