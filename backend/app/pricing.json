@@ -1,5 +1,7 @@
 {
+  "version": "2026.10.1",
   "last_updated": "2026-10-16",
+  "source": "Vendor public pricing pages, manually curated. See docs/PRICING.md.",
   "providers": {
     "openai": {
       "models": {
